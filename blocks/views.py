@@ -5,5 +5,3 @@ def index(request):
 
 def show_index(request):
     pass
-def hh123():
-    pass

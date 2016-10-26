@@ -60,11 +60,23 @@ clinical_choices=(
     ('Yes',u'It is clinical'),
     ('NO',u'It is not clinical')
 )
+comment_choices=(
+    ('Yes',u'It is clinical'),
+    ('NO',u'It is not clinical')
+)
 class College(models.Model):
     name = models.CharField(max_length=1, choices=college_choices, verbose_name=u"الاسم")
     city = models.CharField(max_length=1, choices=city_choices, verbose_name=u"المدينة")
     gender = models.CharField(max_length=1, choices=gender_choices, verbose_name=u"الجنس")
+
+
+class BookCategories(models.Model):
+    name = models.CharField(max_length=100)
+
 class Profile(models.Model):
+    user = models.OneToOneField(User,
+                                unique=True,
+                                related_name='profile')
 
     is_student = models.BooleanField(default=True,
                                      verbose_name=u"طالب؟")
@@ -81,27 +93,19 @@ class Profile(models.Model):
     gender = models.CharField(max_length=1, choices=gender_choices,
                               verbose_name=u"الجنس", blank=True,
                               default="")
-
-    email = models.EmailField(u"البريد الإلكتروني",
-                                          blank=True)
     university = models.CharField (max_length=1, choices=university_choics, verbose_name=u"الجامعة")
 
     college = models.ForeignKey(College, null=True,
                                 blank=True,
                                 on_delete=models.SET_NULL,
                                 verbose_name=u'الكلية')
-    batch = models.IntegerField(max_length=2,
-                                verbose_name=u'الدفعة')
-    profile_picture = models.ImageField(width_field=60,height_field=60)
-class Block (models.Model):
-    title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
-    cover = models.FileField(upload_to='covers', blank=True, null=True)
-    is_clinical = models.CharField(max_length=1,choices=clinical_choices)
+    batch = models.PositiveSmallIntegerField(verbose_name=u'الدفعة')
+    profile_picture = models.FileField(upload_to='profile_pics', blank=True, null=True)
 
 class Book (models.Model):
     title = models.CharField(max_length=120,verbose_name=u'اسم الكتاب')
 
-    description = models.CharField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")
+    description = models.TextField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")
 
     '''tags = TaggableManager(verbose_name=u"التصنيفات",
                            help_text=u"ما التصانيف الإنجليزية التي تراها ملائمة؟ (مطلوبة ومفصولة بفواصل، مثلا: \"Respiratory, Physiology\")")'''
@@ -116,22 +120,30 @@ class Book (models.Model):
 
     submission_date = models.DateTimeField(u"تاريخ الرفع",
                                            auto_now_add=True)
-    blocks = models.ManyToOneRel (max_length=2, choices=blocks_choices, verbose_name=u"البلوكات المستهدفة")
+    blook = models.ManyToManyRel(Block, on_delete=models.CASCADE)
+'''category= models.'''
+
+class Block (models.Model):
+    title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
+    cover = models.FileField(upload_to='covers', blank=True, null=True)
+    is_clinical = models.BooleanField()
+
 
 
 class Comment (models.Model):
     submitter = models.ForeignKey(User, null=True,
                                   on_delete=models.SET_NULL,)
-    description = models.CharField(verbose_name=u"وصف التقييم", blank=True, help_text=u"اختياري")
+    description = models.TextField(verbose_name=u"وصف التقييم", blank=True, help_text=u"اختياري")
     submission_date = models.DateTimeField(u"تاريخ الاضافة",
                                            auto_now_add=True)
 
     rating = models.CharField(max_length=1, choices=rating_choices)
-class comment_rating (models.Model):
+    books = models.ForeignKey(Book,on_delete=models.CASCADE)
+class CommentRating (models.Model):
     submitter = models.ForeignKey(User, null=True,
                                   on_delete=models.SET_NULL, )
-
+    is_positive=models.BooleanField()
     '''comment_id=?? which one ?'''
-    rating = models.CharField(max_length=1, choices=rating_choices)
+    rating = models.PositiveSmallIntegerField()
 ''' tags ?? do we use tagit and how + we dont want to make it limited so if we use choices we need to add
 a function that lets the user add new tags'''
