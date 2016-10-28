@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
+from  django.core.urlresolvers import reverse
 
 '''from taggit.managers import TaggableManager'''
 
@@ -101,49 +102,43 @@ class Profile(models.Model):
                                 verbose_name=u'الكلية')
     batch = models.PositiveSmallIntegerField(verbose_name=u'الدفعة')
     profile_picture = models.FileField(upload_to='profile_pics', blank=True, null=True)
-
+class Block (models.Model):
+    title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
+    cover = models.ImageField(upload_to='covers', blank=True, null=True)
+    is_clinical = models.BooleanField(u'is the block clinical?')
+    def __str__(self):
+        return self.title
 class Book (models.Model):
     title = models.CharField(max_length=120,verbose_name=u'اسم الكتاب')
-
     description = models.TextField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")
-
-    '''tags = TaggableManager(verbose_name=u"التصنيفات",
-                           help_text=u"ما التصانيف الإنجليزية التي تراها ملائمة؟ (مطلوبة ومفصولة بفواصل، مثلا: \"Respiratory, Physiology\")")'''
-
     submitter = models.ForeignKey(User, null=True,
                                   on_delete=models.SET_NULL,
                                   related_name='book_contributions')
 
-    cover = models.FileField(upload_to='covers', blank=True, null=True)
+    cover = models.ImageField(upload_to='covers', blank=True, null=True)
 
     download = models.CharField(max_length=250,verbose_name=u'رابط التحميل',blank=True, help_text=u"اختياري")
 
     submission_date = models.DateTimeField(u"تاريخ الرفع",
                                            auto_now_add=True)
-    blook = models.ManyToManyRel(Block, on_delete=models.CASCADE)
-'''category= models.'''
-
-class Block (models.Model):
-    title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
-    cover = models.FileField(upload_to='covers', blank=True, null=True)
-    is_clinical = models.BooleanField()
-
-
-
+    block = models.ManyToManyRel(Block,'block')
+    category = models.ManyToManyRel(BookCategories,'category')
+    def get_absolute_url(self):
+        return reverse('book:detail', kwargs={'pk':self.pk})
+    def __str__(self):
+        return self.title
 class Comment (models.Model):
     submitter = models.ForeignKey(User, null=True,
                                   on_delete=models.SET_NULL,)
     description = models.TextField(verbose_name=u"وصف التقييم", blank=True, help_text=u"اختياري")
     submission_date = models.DateTimeField(u"تاريخ الاضافة",
                                            auto_now_add=True)
-
     rating = models.CharField(max_length=1, choices=rating_choices)
     books = models.ForeignKey(Book,on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.submitter)+'  -   '+self.description+'  -  '+str(self.books)
 class CommentRating (models.Model):
     submitter = models.ForeignKey(User, null=True,
                                   on_delete=models.SET_NULL, )
     is_positive=models.BooleanField()
-    '''comment_id=?? which one ?'''
     rating = models.PositiveSmallIntegerField()
-''' tags ?? do we use tagit and how + we dont want to make it limited so if we use choices we need to add
-a function that lets the user add new tags'''
