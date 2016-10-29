@@ -5,8 +5,14 @@ app_name= 'm9adery'
 urlpatterns = [
     url(r'^$',views.show_index,name='index'),
     url(r'^books/(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
-    #url(r'^books/$',views.IndexView.as_view(),name='books'), doesn't work?
+    url(r'books/add/$', views.BookCreate.as_view(), name='book-add'),
+    #m9adery/books/1/edit
+    url(r'books/(?P<pk>[0-9]+)/edit/$', views.BookUpdate.as_view(), name='book-update'),
+    url(r'books/(?P<pk>[0-9]+)/confirm_delete/$', views.BookDelete.as_view(), name='book-confirm_delete'),
+    url(r'books/(?P<pk>[0-9]+)/delete/$', views.BookDelete.as_view(), name='book-delete'),
+    url(r'books/comment/add/$', views.CommentCreate.as_view(), name='comment-add'),
+    url(r'^books/$',views.IndexView.as_view(),name='books'),
     #/m9adery/books/add/
     #url(r'^books/(?P<book_id>[0-9]+)/edit$', views.editbook, name='editbook'),
-    url(r'^books/$', views.index,name='books'),
+    #url(r'^books/$', views.index,name='books'),
 ]

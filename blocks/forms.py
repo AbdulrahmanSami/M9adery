@@ -5,3 +5,7 @@ class BookForm(ModelForm):
     class Meta:
         model = Book
         fields =['title','description','cover','download',]
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields =['description']

@@ -1,10 +1,22 @@
 <img src="{{ book.cover}}">
 <h1>{{ book.title }}</h1>
 <h3>{{ book.description }}</h3>
-<ul>
+
+<hr>
     {% for comment in book.comment_set.all %}
-            <li>{{ comment.submitter }} <br>
-                {{ comment.description }}<br>
-                {{ comment.submission_date }}</li>
-    {% endfor %}
+        <br><div class="comment">
+        <strong>{{ comment.submitter }}</strong>
+        <p>{{ comment.description|linebreaks }}</p>
+        <div class="date">{{ comment.submission_date }}</div><br>
+        </div>
+{% empty %}
+    <p>No comments here yet :(</p>
+{% endfor %}
 </ul>
+<a href="{% url 'm9adery:book-update' book.id %}"><h2>Update Book</h2></a>
+<a href="{% url 'm9adery:book-confirm_delete' book.id %}"><h2>Delete this Book</h2></a>
+<a href="{% url 'm9adery:comment-add' %}"><h2>Add Comment</h2></a>
+<a href="{% url 'm9adery:books' %}"><h2>All Books</h2></a>
+            <!--<li>{{ comment.submitter }} <br>-->
+                <!--{{ comment.description }}<br>-->
+                <!--{{ comment.submission_date }}</li>-->

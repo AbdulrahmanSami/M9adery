@@ -115,7 +115,7 @@ class Book (models.Model):
                                   on_delete=models.SET_NULL,
                                   related_name='book_contributions')
 
-    cover = models.ImageField(upload_to='covers', blank=True, null=True)
+    cover = models.CharField(max_length=1000,blank=True,verbose_name=u'غلاف الكتاب')
 
     download = models.CharField(max_length=250,verbose_name=u'رابط التحميل',blank=True, help_text=u"اختياري")
 
@@ -124,7 +124,7 @@ class Book (models.Model):
     block = models.ManyToManyRel(Block,'block')
     category = models.ManyToManyRel(BookCategories,'category')
     def get_absolute_url(self):
-        return reverse('book:detail', kwargs={'pk':self.pk})
+        return reverse('m9adery:detail', kwargs={'pk':self.pk})
     def __str__(self):
         return self.title
 class Comment (models.Model):
