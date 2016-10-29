@@ -115,7 +115,7 @@ class Book (models.Model):
                                   on_delete=models.SET_NULL,
                                   related_name='book_contributions')
 
-    cover = models.CharField(max_length=1000,blank=True,verbose_name=u'غلاف الكتاب')
+    cover = models.CharField(max_length=1000,blank=True,default='http://www.danieladorno.com/wp-content/uploads/2014/04/Empty_book_cover.png',verbose_name=u'غلاف الكتاب')
 
     download = models.CharField(max_length=250,verbose_name=u'رابط التحميل',blank=True, help_text=u"اختياري")
 
