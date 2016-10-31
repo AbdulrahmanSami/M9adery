@@ -15,6 +15,8 @@ class IndexView(generic.ListView):
 
 def show_index(request):
     pass
+def ao22(request):
+    pass
 class DetailView(generic.DetailView):
     model = Book
     template_name = 'blocks/detail.html'
