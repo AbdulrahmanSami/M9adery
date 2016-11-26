@@ -27,17 +27,36 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = (
+        'userena.backends.UserenaAuthenticationBackend',
+        'guardian.backends.ObjectPermissionBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+AUTH_PROFILE_MODULE = 'accounts.MyProfile'
 
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+ANONYMOUS_USER_ID = -1
 # Application definition
-
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yourgmailaccount@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 INSTALLED_APPS = [
     'blocks.apps.AppConfig',
+    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -119,3 +138,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'

@@ -71,8 +71,10 @@ class College(models.Model):
     gender = models.CharField(max_length=1, choices=gender_choices, verbose_name=u"الجنس")
 
 
-class BookCategories(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=100)
+    block = models.ManyToManyRel('Block','block')
+    cover = models.ImageField("صورة التصنيف")
 
 class Profile(models.Model):
     user = models.OneToOneField(User,
@@ -104,8 +106,11 @@ class Profile(models.Model):
     profile_picture = models.FileField(upload_to='profile_pics', blank=True, null=True)
 class Block (models.Model):
     title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
-    cover = models.ImageField(upload_to='covers', blank=True, null=True)
+    cover = models.ImageField("صورة البلوك")
     is_clinical = models.BooleanField(u'is the block clinical?')
+    description = models.TextField(verbose_name=u"وصف البلوك", blank=True, help_text=u"اختياري")
+    def get_absolute_url(self):
+        return reverse('m9adery:blockdetail', kwargs={'pk':self.pk})
     def __str__(self):
         return self.title
 class Book (models.Model):
@@ -115,14 +120,15 @@ class Book (models.Model):
                                   on_delete=models.SET_NULL,
                                   related_name='book_contributions')
 
-    cover = models.CharField(max_length=1000,blank=True,default='http://www.danieladorno.com/wp-content/uploads/2014/04/Empty_book_cover.png',verbose_name=u'غلاف الكتاب')
+    #cover = models.CharField(max_length=1000,blank=True,default='http://www.danieladorno.com/wp-content/uploads/2014/04/Empty_book_cover.png',verbose_name=u'غلاف الكتاب')
+    cover = models.ImageField("صورة الكتاب")
 
     download = models.CharField(max_length=250,verbose_name=u'رابط التحميل',blank=True, help_text=u"اختياري")
 
     submission_date = models.DateTimeField(u"تاريخ الرفع",
                                            auto_now_add=True)
     block = models.ManyToManyRel(Block,'block')
-    category = models.ManyToManyRel(BookCategories,'category')
+    category = models.ManyToManyRel(Category,'category')
     def get_absolute_url(self):
         return reverse('m9adery:detail', kwargs={'pk':self.pk})
     def __str__(self):

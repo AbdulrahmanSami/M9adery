@@ -1,9 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile,Book,Block,BookCategories,College,Comment,CommentRating
+from .models import Profile,Book,Block,College,Comment,CommentRating
 admin.site.register(Profile)
-admin.site.register(BookCategories)
 admin.site.register(Book)
 admin.site.register(Block)
 admin.site.register(CommentRating)

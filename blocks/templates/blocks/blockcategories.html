@@ -1,0 +1,13 @@
+<img src="{{ block.cover.url }}" style="max-width: 50%">
+<h1>{{ block.title }}</h1>
+<h3>{{ block.description }}</h3>
+
+<hr>
+    {% for category in block.category_set.all %}
+        <br><div class="category">
+        <strong>{{ category.name }}</strong>
+        <img src="{{ category.cover.url }}" style="max-width: 20%">
+        </div>
+{% empty %}
+    <p>No categories here yet :(</p>
+{% endfor %}

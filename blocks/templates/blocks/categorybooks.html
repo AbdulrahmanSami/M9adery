@@ -1,0 +1,11 @@
+<h1>{{ category.name }}</h1>
+
+<hr>
+    {% for books in block.category_set.all %}
+        <br><div class="category">
+        <strong>{{ category.name }}</strong>
+        <img src="{{ category.cover.url }}" style="max-width: 20%">
+        </div>
+{% empty %}
+    <p>No categories here yet :(</p>
+{% endfor %}
