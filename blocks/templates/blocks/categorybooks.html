@@ -1,6 +1,7 @@
 <h1>{{ category.name }}</h1>
 
 <hr>
+#Category.objects.filter(book__block=block).distinct()
     {% for books in block.category_set.all %}
         <br><div class="category">
         <strong>{{ category.name }}</strong>

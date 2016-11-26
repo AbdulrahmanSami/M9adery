@@ -106,7 +106,7 @@ class Profile(models.Model):
     profile_picture = models.FileField(upload_to='profile_pics', blank=True, null=True)
 class Block (models.Model):
     title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
-    cover = models.ImageField("صورة البلوك")
+    cover = models.ImageField("صورة البلوك",default='http://riddim-donmagazine.com/wp-content/uploads/2015/12/Concrete-Block.jpg')
     is_clinical = models.BooleanField(u'is the block clinical?')
     description = models.TextField(verbose_name=u"وصف البلوك", blank=True, help_text=u"اختياري")
     def get_absolute_url(self):
