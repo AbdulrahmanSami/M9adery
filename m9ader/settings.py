@@ -24,7 +24,7 @@ SECRET_KEY = '9c$o@=6*(c#c^rulc@w0u$(0*p#d+(^^i2n)7allvt-iebic!7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+SITE_ID = 1
 ALLOWED_HOSTS = []
 
 AUTHENTICATION_BACKENDS = (

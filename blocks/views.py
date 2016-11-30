@@ -1,8 +1,8 @@
 # -*- coding: utf-8  -*-
 from django.shortcuts import render, get_object_or_404
-from .models import Book,Comment,Block
+from .models import Book,Comment,Block,Category
 from django.views import generic
-from .forms import BookForm,CommentForm
+from .forms import BookForm,CommentForm,CategoryForm
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.exceptions import PermissionDenied
@@ -34,11 +34,18 @@ class BlockDetailView(generic.DetailView):
 class CategoryDetailView(generic.DetailView):
     model = Block
     template_name = 'blocks/categorybooks.html'
-
-
+def show_category(request,block_pk,category_pk):
+    block = get_object_or_404(Block,pk=block_pk)
+    category = get_object_or_404(Block,pk=category_pk)
+    books= Book.objects.filter(block=block,category=category)
+    context = {'books':books}
+    return render(request,'blocks/categorybooks.html',context)
 class BookCreate(CreateView):
     model = Book
     fields = ['title','description','cover','download']
+class CategoryCreate(CreateView):
+    model = Category
+    fields = ['name','cover']
 
 class BookUpdate(UpdateView):
     model = Book
@@ -81,3 +88,18 @@ def add_comment(request,pk):
     }
 
     return render(request, 'blocks/comment_form.html', context)
+def add_category(request,pk):
+    block = get_object_or_404(Block, pk=pk)
+    if request.method == "GET":
+        form = CategoryForm()
+    elif request.method == "POST":
+        instance = Category(block=block, submitter=request.user)
+        form = CategoryForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('m9adery:blockdetail', args=(pk,)))
+    context = {
+        'form':form
+    }
+
+    return render(request, 'blocks/category_form.html', context)

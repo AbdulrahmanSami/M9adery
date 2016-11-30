@@ -1,13 +1,13 @@
-<img src="{{ block.cover.url }}" style="max-width: 50%">
 <h1>{{ block.title }}</h1>
 <h3>{{ block.description }}</h3>
 
-<hr>
     {% for category in block.category_set.all %}
-        <br><div class="category">
-        <strong>{{ category.name }}</strong>
-        <img src="{{ category.cover.url }}" style="max-width: 20%">
-        </div>
-{% empty %}
+        <h2>
+            <li>
+                <a href="{% url 'm9adery:categorybooks'  block.id category.id  %}">{{ category.name }}</a>
+                    {% csrf_token %}
+            </li>
+        </h2>
+    {% empty %}
     <p>No categories here yet :(</p>
-{% endfor %}
+    {% endfor %}

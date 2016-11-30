@@ -71,10 +71,6 @@ class College(models.Model):
     gender = models.CharField(max_length=1, choices=gender_choices, verbose_name=u"الجنس")
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    block = models.ManyToManyRel('Block','block')
-    cover = models.ImageField("صورة التصنيف")
 
 class Profile(models.Model):
     user = models.OneToOneField(User,
@@ -107,12 +103,19 @@ class Profile(models.Model):
 class Block (models.Model):
     title = models.CharField(max_length=120, verbose_name=u'اسم البلوك ')
     cover = models.ImageField("صورة البلوك",default='http://riddim-donmagazine.com/wp-content/uploads/2015/12/Concrete-Block.jpg')
-    is_clinical = models.BooleanField(u'is the block clinical?')
+    is_clinical = models.BooleanField(u'is the block clinical?',default=False)
     description = models.TextField(verbose_name=u"وصف البلوك", blank=True, help_text=u"اختياري")
     def get_absolute_url(self):
-        return reverse('m9adery:blockdetail', kwargs={'pk':self.pk})
+        return reverse('m9adery:blockcategories', kwargs={'pk':self.pk})
     def __str__(self):
         return self.title
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    #block = models.ManyToManyRel(Block,'block')
+    block = models.ManyToManyField(Block, blank=True, null=True)
+    cover = models.ImageField("صورة التصنيف",null=True)
+    def __str__(self):
+        return self.name
 class Book (models.Model):
     title = models.CharField(max_length=120,verbose_name=u'اسم الكتاب')
     description = models.TextField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")
@@ -127,8 +130,8 @@ class Book (models.Model):
 
     submission_date = models.DateTimeField(u"تاريخ الرفع",
                                            auto_now_add=True)
-    block = models.ManyToManyRel(Block,'block')
-    category = models.ManyToManyRel(Category,'category')
+    category = models.ManyToManyField(Category,blank=True, help_text=u"اختياري")
+    block = models.ManyToManyField(Block,blank=True, help_text=u"اختياري")
     def get_absolute_url(self):
         return reverse('m9adery:detail', kwargs={'pk':self.pk})
     def __str__(self):
