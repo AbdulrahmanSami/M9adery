@@ -1,16 +1,19 @@
-<img src="{{ book.cover.url }}" style="max-width: 50%">
-<h1>{{ book.title }}</h1>
-<h3>{{ book.description }}</h3>
+{% extends 'blocks/base.html' %}
+{% block body %}
+    <img src="{{ book.cover.url }}" style="max-width: 50%">
+    <h1>{{ book.title }}</h1>
+    <h3>{{ book.description }}</h3>
 
-<hr>
-    {% for comment in book.comment_set.all %}
-        <br><div class="comment">
-        <strong>{{ comment.submitter }}</strong>
-        <p>{{ comment.description|linebreaks }}</p>
-        <div class="date">{{ comment.submission_date }}</div><br>
-        </div>
-{% empty %}
-    <p>No comments here yet :(</p>
-{% endfor %}
-</ul>
+    <hr>
+        {% for comment in book.comment_set.all %}
+            <br><div class="comment">
+            <strong>{{ comment.submitter }}</strong>
+            <p>{{ comment.description|linebreaks }}</p>
+            <div class="date">{{ comment.submission_date }}</div><br>
+            </div>
+    {% empty %}
+        <p>No comments here yet :(</p>
+
+    {% endfor %}
+{% endblock %}
 

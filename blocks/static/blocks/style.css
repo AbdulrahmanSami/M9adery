@@ -1,3 +1,6 @@
-body{
-backgroundL white url ("images/background.jpg");
+body {
+    background: whitesmoke;
+}
+.navbar {
+    border-radius: 0;
 }

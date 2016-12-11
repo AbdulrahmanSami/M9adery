@@ -36,16 +36,18 @@ class CategoryDetailView(generic.DetailView):
     template_name = 'blocks/categorybooks.html'
 def show_category(request,block_pk,category_pk):
     block = get_object_or_404(Block,pk=block_pk)
-    category = get_object_or_404(Block,pk=category_pk)
+    category = get_object_or_404(Category,pk=category_pk)
     books= Book.objects.filter(block=block,category=category)
-    context = {'books':books}
+    context = {'books':books,
+              'category':category,
+               'block':block}
     return render(request,'blocks/categorybooks.html',context)
 class BookCreate(CreateView):
     model = Book
-    fields = ['title','description','cover','download']
+    fields = ['title','description','cover','download','category','block']
 class CategoryCreate(CreateView):
     model = Category
-    fields = ['name','cover']
+    fields = ['name','cover','block']
 
 class BookUpdate(UpdateView):
     model = Book
@@ -70,9 +72,9 @@ class CommentCreate(CreateView):
 def add_comment(request,pk):
     book = get_object_or_404(Book, pk=pk)
     # PERMISSION CHECK
-    if not request.user.is_superuser  and \
-        not request.user == book.submitter:
-        raise PermissionDenied
+    #if not request.user.is_superuser  and \
+        #not request.user == book.submitter:
+        #raise PermissionDenied
 
 
     if request.method == "GET":

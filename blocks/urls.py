@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^books/(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
     url(r'^blocks/(?P<pk>[0-9]+)/$', views.BlockDetailView.as_view(), name='blockdetail'),
     url(r'^blocks/(?:(?P<block_pk>\d+)/)?category/(?P<category_pk>\d+)',views.show_category,name='categorybooks'),
+    url(r'blocks/category/add/$', views.CategoryCreate.as_view(), name='category-add'),
     #url(r'^blocks/(?P<block_pk>\d+)/category/(?P<pk>[0-9]+)/$', views.show_category, name='categorybooks'),
     url(r'books/add/$', views.BookCreate.as_view(), name='book-add'),
     #m9adery/books/1/edit

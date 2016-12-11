@@ -1,20 +1,23 @@
-{% if all_books %}
-<h1>الكتب المرفوعة:</h1>
-<ul>
-    {% for book in all_books %}
-        <h2>
-            <li>
-                <a href="{% url 'm9adery:detail' book.id %}">{{ book.title }}</a>
-                    {% csrf_token %}
-            </li>
-        </h2>
-    {% endfor %}
-</ul>
-{% else %}
-    <h3>There are no books yet</h3>
-{% endif %}
-<a href="{% url 'm9adery:book-add' %}">Add Book</a>
-<!--<form method="POST" action="">{% csrf_token %}-->
-    <!--{{ form.as_p}}-->
-    <!--<input type="submit" value="add book">-->
-<!--</form>-->
+{% extends 'blocks/base.html' %}
+{% block body %}
+    {% if all_books %}
+    <h1>الكتب المرفوعة:</h1>
+    <ul>
+        {% for book in all_books %}
+            <h2>
+                <li>
+                    <a href="{% url 'm9adery:detail' book.id %}">{{ book.title }}</a>
+                        {% csrf_token %}
+                </li>
+            </h2>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <h3>There are no books yet</h3>
+    {% endif %}
+    <a href="{% url 'm9adery:book-add' %}">Add Book</a>
+    <!--<form method="POST" action="">{% csrf_token %}-->
+        <!--{{ form.as_p}}-->
+        <!--<input type="submit" value="add book">-->
+    <!--</form>-->
+{% endblock %}

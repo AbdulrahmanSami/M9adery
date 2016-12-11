@@ -70,8 +70,6 @@ class College(models.Model):
     city = models.CharField(max_length=1, choices=city_choices, verbose_name=u"المدينة")
     gender = models.CharField(max_length=1, choices=gender_choices, verbose_name=u"الجنس")
 
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User,
                                 unique=True,
@@ -105,17 +103,16 @@ class Block (models.Model):
     cover = models.ImageField("صورة البلوك",default='http://riddim-donmagazine.com/wp-content/uploads/2015/12/Concrete-Block.jpg')
     is_clinical = models.BooleanField(u'is the block clinical?',default=False)
     description = models.TextField(verbose_name=u"وصف البلوك", blank=True, help_text=u"اختياري")
-    def get_absolute_url(self):
-        return reverse('m9adery:blockcategories', kwargs={'pk':self.pk})
     def __str__(self):
         return self.title
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    #block = models.ManyToManyRel(Block,'block')
-    block = models.ManyToManyField(Block, blank=True, null=True)
+    block = models.ManyToManyField(Block, blank=True,default='block.id')
     cover = models.ImageField("صورة التصنيف",null=True)
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return reverse('m9adery:homepage')
 class Book (models.Model):
     title = models.CharField(max_length=120,verbose_name=u'اسم الكتاب')
     description = models.TextField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")

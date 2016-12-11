@@ -4,7 +4,7 @@ from .models import Profile,Book,Block,College,Comment,CommentRating,Category
 class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields =['title','description','cover','download',]
+        fields = ['submitter', 'category']
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
@@ -12,4 +12,4 @@ class CommentForm(ModelForm):
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
-        fields = ['name','cover']
+        fields = ['name','block','cover']
