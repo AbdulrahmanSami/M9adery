@@ -1,23 +1,184 @@
 {% extends 'blocks/base.html' %}
+{% load staticfiles %}
 {% block body %}
-    {% if all_books %}
-    <h1>الكتب المرفوعة:</h1>
-    <ul>
-        {% for book in all_books %}
-            <h2>
-                <li>
-                    <a href="{% url 'm9adery:detail' book.id %}">{{ book.title }}</a>
-                        {% csrf_token %}
-                </li>
-            </h2>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <h3>There are no books yet</h3>
-    {% endif %}
-    <a href="{% url 'm9adery:book-add' %}">Add Book</a>
-    <!--<form method="POST" action="">{% csrf_token %}-->
-        <!--{{ form.as_p}}-->
-        <!--<input type="submit" value="add book">-->
-    <!--</form>-->
+<div class="container">
+
+	</div>
+	<aside id="fh5co-hero" class="js-fullheight">
+		<div class="flexslider js-fullheight">
+			<ul class="slides">
+		   	<li style="background-image: url(static/blocks/images/sad-child-portrait.jpg);">
+		   		<div class="overlay-gradient"></div>
+		   		<div class="container">
+		   			<div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
+		   				<div class="slider-text-inner">
+		   					<h2>فتحت سلايدات الطيب في الاناتومي وضاق صدرك؟</h2>
+		   					<p><a href="/books" class="btn btn-primary btn-lg">تصفح الكتب</a></p>
+		   				</div>
+		   			</div>
+		   		</div>
+		   	</li>
+		   	<li style="background-image: url(static/blocks/images/RTR35PZS.jpg);">
+		   		<div class="container">
+		   			<div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
+		   				<div class="slider-text-inner">
+		   					<h2>ودك تذاكر من الكتاب بس ما تعرف وش تختار؟</h2>
+		   					<p><a href="/books" class="btn btn-primary btn-lg">تصفح الكتب</a></p>
+		   				</div>
+		   			</div>
+		   		</div>
+		   	</li>
+		   	<li style="background-image: url(static/blocks/images/bk.jpg);">
+		   		<div class="container">
+		   			<div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
+		   				<div class="slider-text-inner">
+		   					<h2>شريت كتاب واكتشفت انه ما ينفع لك؟</h2>
+		   					<p><a href="/books" class="btn btn-primary btn-lg">تصفح الكتب</a></p>
+		   				</div>
+		   			</div>
+		   		</div>
+		   	</li>
+		  	</ul>
+	  	</div>
+	</aside>
+	<div id="fh5co-services-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading animate-box">
+					<h2>فكرة موقع قيم مصادري</h2>
+					<h3> الموقع يكون حلقة وصل بين طلاب الطب, ويفتح فرصة لتبادل الخبرات. تسطيع في موقع قيم مصادري اضافة كتاب او تقييم كتاب مضاف </h3>
+				</div>
+			</div>
+
+	<div id="fh5co-work-section" class="fh5co-light-grey-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading animate-box">
+					<h2>Blocks </h2>
+					<p> بلوكات الطب الإكلينكية وغير الإكلينيكية </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/2/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/msk.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Musculoskeletal Block</h3>
+                                <h5 class="category">Pre-Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/3/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/respiratory_system.png)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Respiratory Block</h3>
+								<h5 class="category">Pre-Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/6/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/Neurosciences.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Neurosciences Block</h3>
+								<h5 class="category">Pre-Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/14/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/bannerImage-1.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Pediatric Block</h3>
+								<h5 class="category">Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/16/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/obsgyn.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Obstetrics and Gynaecology Block</h3>
+								<h5 class="category">Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-4 animate-box">
+					<a href="/blocks/15/" class="item-grid text-center">
+						<div class="image" style="background-image: url(static/blocks/images/Surgery.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Surgery Block</h3>
+								<h5 class="category">Clinical Phase</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-12 text-center animate-box">
+					<p><a href="/blocks" class="btn btn-primary with-arrow">View All Blocks <i class="icon-arrow-right"></i></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="fh5co-blog-section" class="fh5co-light-grey-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading animate-box">
+					<h2>Latest Books :</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-sm-6 animate-box">
+					<a href="#" class="item-grid">
+						<div class="image" style="background-image: url(static/blocks/images/Greys.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">grey's anatomy for students</h3>
+								<h5 class="date"><span>December 13, 2016</span> | <span>2 Comments</span></h5>
+								<p>Gray's Anatomy for Students is an anatomy textbook inspired by the famous Gray's Anatomy and aimed primarily at medical students. The text has been praised for its innovative illustration style, which emphasizes clarity and a conceptual approach to learning.</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-6 col-sm-6 animate-box">
+					<a href="#" class="item-grid">
+						<div class="image" style="background-image: url(static/blocks/images/robbinspathology.jpg)"></div>
+						<div class="v-align">
+							<div class="v-align-middle">
+								<h3 class="title">Robbins Pathology</h3>
+								<h5 class="date"><span>December 13, 2016</span> | <span>4 Comments</span></h5>
+                                <P>Robbins Basic Pathology delivers the pathology knowledge you need, the way you need it, from the name you can trust! This medical textbook’s unbeatable author team helps you efficiently master the core concepts you need to know for your courses and USMLE exams.</P>
+                            </div>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-12 text-center animate-box">
+					<p><a href="/books" class="btn btn-primary with-arrow">View All Books <i class="icon-arrow-right"></i></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="fh5co-cta" style="background-image: url(images/slide_2.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="col-md-12 text-center animate-box">
+				<h3>We Try To Add New Books Everyday!</h3>
+				<p><a href="/books" class="btn btn-primary btn-outline with-arrow">Rate them now! <i class="icon-arrow-right"></i></a></p>
+			</div>
+		</div>
+	</div>
 {% endblock %}

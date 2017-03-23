@@ -112,7 +112,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     def get_absolute_url(self):
-        return reverse('m9adery:homepage')
+        return reverse('m9adery:categorybooks', kwargs={'pk':self.pk})
 class Book (models.Model):
     title = models.CharField(max_length=120,verbose_name=u'اسم الكتاب')
     description = models.TextField(verbose_name=u"وصف الكتاب", blank=True, help_text=u"اختياري")
@@ -130,7 +130,7 @@ class Book (models.Model):
     category = models.ManyToManyField(Category,blank=True, help_text=u"اختياري")
     block = models.ManyToManyField(Block,blank=True, help_text=u"اختياري")
     def get_absolute_url(self):
-        return reverse('m9adery:detail', kwargs={'pk':self.pk})
+        return reverse('m9adery:bookdetail', kwargs={'pk':self.pk})
     def __str__(self):
         return self.title
 class Comment (models.Model):

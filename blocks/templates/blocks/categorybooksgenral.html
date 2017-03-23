@@ -1,6 +1,8 @@
 {% extends 'blocks/base.html' %}
 {% block body %}
     <div class="albums-container container-fluid">
+
+
         <div class="row">
         <h1>:{{ category.name }} الكتب المرفوعة في تصنيف</h1>
         {% for book in books %}
@@ -14,13 +16,6 @@
                         </div>
                     </div>
                 </div>
-        <ul>
-                    <h2>
-                    <li>
-            <a href="{% url 'm9adery:bookdetail' book.id %}">{{ book.title }}</a>
-                        </li>
-                </h2>
-        </ul>
         {% empty %}
             <p>No books here yet :(</p>
         {% endfor %}

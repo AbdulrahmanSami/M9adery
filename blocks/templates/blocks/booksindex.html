@@ -1,0 +1,27 @@
+{% extends 'blocks/base.html' %}
+{% block body %}
+    {% if all_books %}
+    <h1>الكتب المرفوعة:</h1>
+        {% for book in all_books %}
+ <div class="row" >
+              <div class="col-md-4 animate-box">
+                    <div class="thumbnail">
+                        <a href="{% url 'm9adery:bookdetail' book.id %}">
+                           {% if book.cover %} <img src="{{ book.cover.url }}" class="img-responsive" width="400px" height="400px">{% endif %}
+                        </a>
+                        <div class="caption">
+                            <h3>{{ book.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+     {% endfor %}
+
+    {% else %}
+        <h3>There are no books yet</h3>
+    {% endif %}
+    <a href="{% url 'm9adery:book-add' %}">Add Book</a>
+    <!--<form method="POST" action="">{% csrf_token %}-->
+        <!--{{ form.as_p}}-->
+        <!--<input type="submit" value="add book">-->
+    <!--</form>-->
+{% endblock %}

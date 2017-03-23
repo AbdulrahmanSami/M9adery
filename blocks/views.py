@@ -9,13 +9,26 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 
 class IndexView(generic.ListView):
-    template_name = 'blocks/index.html'
+    template_name = 'blocks/booksindex.html'
     context_object_name = 'all_books'
 
     def get_queryset(self):
         return Book.objects.all()
+class CategoryIndexView(generic.ListView):
+    template_name = 'blocks/categories.html'
+    context_object_name = 'all_categorys'
+
+    def get_queryset(self):
+        return Category.objects.all()
 class IndexHomeView(generic.ListView):
-    template_name = 'blocks/homepage.html'
+    template_name = 'blocks/index.html'
+    context_object_name = 'all_blocks'
+
+    def get_queryset(self):
+        return Block.objects.all()
+
+class BlockIndexView(generic.ListView):
+    template_name = 'blocks/blocks.html'
     context_object_name = 'all_blocks'
 
     def get_queryset(self):
@@ -25,16 +38,22 @@ def show_index(request):
     pass
 def ao22(request):
     pass
-class DetailView(generic.DetailView):
+class BookDetailView(generic.DetailView):
     model = Book
-    template_name = 'blocks/detail.html'
+    template_name = 'blocks/bookdetail.html'
+
+def show_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    form = CommentForm()
+    context = {'book': book, 'form': form}
+    return render(request, 'blocks/bookdetail.html', context)
 class BlockDetailView(generic.DetailView):
     model = Block
     template_name = 'blocks/blockcategories.html'
 class CategoryDetailView(generic.DetailView):
-    model = Block
-    template_name = 'blocks/categorybooks.html'
-def show_category(request,block_pk,category_pk):
+    model = Category
+    template_name = 'blocks/categories.html'
+def show_blockcategory(request,block_pk,category_pk):
     block = get_object_or_404(Block,pk=block_pk)
     category = get_object_or_404(Category,pk=category_pk)
     books= Book.objects.filter(block=block,category=category)
@@ -42,6 +61,13 @@ def show_category(request,block_pk,category_pk):
               'category':category,
                'block':block}
     return render(request,'blocks/categorybooks.html',context)
+def show_category(request,category_pk):
+    category = get_object_or_404(Category,pk=category_pk)
+    books= Book.objects.filter(category=category)
+    context = {'books':books,
+              'category':category,
+               }
+    return render(request,'blocks/categorybooksgenral.html',context)
 class BookCreate(CreateView):
     model = Book
     fields = ['title','description','cover','download','category','block']
@@ -84,12 +110,12 @@ def add_comment(request,pk):
         form = CommentForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('m9adery:detail', args=(pk,)))
+            return HttpResponseRedirect(reverse('m9adery:bookdetail', args=(pk,)))
     context = {
         'form':form
     }
 
-    return render(request, 'blocks/comment_form.html', context)
+    return render(request, 'blocks/bookdetail.html', context)
 def add_category(request,pk):
     block = get_object_or_404(Block, pk=pk)
     if request.method == "GET":
@@ -105,3 +131,35 @@ def add_category(request,pk):
     }
 
     return render(request, 'blocks/category_form.html', context)
+def add_book(request):
+    category_pk = None
+    block_pk = None
+    instance = Book()
+    if category_pk:
+        category = get_object_or_404(Category, pk=category_pk)
+        instance.category = category
+    if block_pk:
+        block = get_object_or_404(Block, pk=block_pk)
+        instance = Book(block=block)
+    form = BookForm(instance=instance)
+    return HttpResponseRedirect(reverse('m9adery:book-add'))
+
+def index(request):
+    categorys = Category.objects.filter(user=request.user)
+    book_results = Book.objects.all()
+    query = request.GET.get("q")
+    if query:
+        categorys = Category.filter(
+        Q(name__icontains=query)
+        ).distinct()
+        book_results = book_results.filter(
+        Q(title__icontains=query)
+        ).distinct()
+        return render(request, 'blocks/index.html', {
+            'categorys': categorys,
+            'books': book_results,
+        })
+    else:
+        return render(request, 'blocks/index.html', {'blocks': block,
+                                                     'books' : book,
+                                                     'categorys': categorys,})

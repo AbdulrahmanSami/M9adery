@@ -15,5 +15,12 @@
         <p>No comments here yet :(</p>
 
     {% endfor %}
+
+<h1>comment</h1>
+<form role="form" action="{% url 'm9adery:comment-add' book.pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" value="add comment">Submit</button>
+</form>
 {% endblock %}
 
